@@ -41,5 +41,7 @@ Fehlerhaftes Windows-Update
 ## Quellen
 
 (1) Tom Warren, 19.07.2024 9.17 GMT +2, Major Windows BSOD issue hits banks, airlines, and TV broadcasters, veröffentlicht in "The Verge", URL: [https://www.theverge.com/2024/7/19/24201717/windows-bsod-crowdstrike-outage-issue], letzter Zugriff: 27.10.2024 10.20 MET
+
 (2) Kay Nordenbrock, 24.07.2024, 15.49 MEST, Crowdstrike erklärt Update-Problem: Dieser Fehler führte zum Ausfall von 8,5 Millionen Windows-Rechnern, veröffentlicht in "t3n", URL: [https://t3n.de/news/crowdstrike-panne-ausfall-85-millionen-rechnern-1637309/], letzter Zugriff: 27.10.2024 10.46 MET
+
 (3) CrowdStrike, 06.08.2024 21.19 UTC, Remediation and Guidance Hub: Channel File 291 Incident, veröffentlicht auf der Website von Crowdstrike, URL: [https://www.crowdstrike.com/falcon-content-update-remediation-and-guidance-hub/], letzter Zugriff: 27.10.2024 10.51 MET
