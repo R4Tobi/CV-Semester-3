@@ -7,7 +7,7 @@ Fehlerhaftes Windows-Update
 ### Einsatz und Verwendung der Software
 
 - Treiber auf Kernel Ebene um Windows Systeme zu schützen (1)
-- Verwendung auf jedem Windows-Rechner weltweit (1)
+- Verwendung auf beinahe jedem Windows-Rechner weltweit (1)
 - Erkennung neuer Betrugsmasche und anderer Systemschwachstellen (2)
 - KI und ML Algorithmus zur Gefahrenabwehr (3)
 
@@ -34,9 +34,9 @@ Fehlerhaftes Windows-Update
 ### Wie hätte das Problem vermiden werden können
 
 - Ausführliches testen der Software, um Fehler zu identifizieren und noch im Entwicklungsprozess zu beheben (1)
-  - Tests seiten CrowdStrike und MIcrosoft hättten das Problem verhindern können (1)
+  - Tests seiten CrowdStrike und Microsoft hättten das Problem verhindern können (1)
 - Kontrollieren von geschriebenen Code durch andere Mitarbeiter, um Fehler zu identifizieren, bevor Sie im Programm landen (1)
-- CrowdStrike selbst möchte in ZUkunft auf lokale Entwicklertests, Rollback- und Stresstests und Stabilitätstests zurückgreifen, sowie Updates schrittweise ausrollen um Massenausfälle zu verhindern(2)
+- CrowdStrike selbst möchte in Zukunft auf lokale Entwicklertests, Rollback- und Stresstests und Stabilitätstests zurückgreifen, sowie Updates schrittweise ausrollen um Massenausfälle zu verhindern (2)
 
 ## Quellen
 
