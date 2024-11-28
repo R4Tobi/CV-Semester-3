@@ -55,9 +55,14 @@ public class Polynomial {
         matcher.reset();
 
         while(matcher.find()) {
+            System.out.println("Group 0: " + matcher.group(0));
+            System.out.println("Group 1: " + matcher.group(1));
+            System.out.println("Group 2: " + matcher.group(2));
             String coeffStr;
+            //positive coeff
             if (matcher.group(1).isEmpty() || matcher.group(1).equals("+")) {
                 coeffStr = "1";
+            //negative coeff
             } else if (matcher.group(1).equals("-")) {
                 coeffStr = "-1";
             } else {
@@ -67,14 +72,16 @@ public class Polynomial {
             //get degree to set the coefficient at the right position in the array
             int degree;
             if (matcher.group(2) != null) {
-                degree = Integer.parseInt(matcher.group(2));
+                degree = Integer.parseInt(matcher.group(2)); // Explicit power like x^2
             } else if (matcher.group(0).contains("x")) {
-                degree = 1;
+                degree = 1; // Linear term like "x"
             } else {
-                degree = 0;
+                degree = 0; // Constant term
             }
             coeffs[degree] += coeff;
         }
+        //fix for too high coefficients, because the matcher appends one value at last iteration, where all Groups are blank or null, so its needs to removed
+        coeffs[0] = coeffs[0] - 1;
         new Polynomial(coeffs);
     }
 }
