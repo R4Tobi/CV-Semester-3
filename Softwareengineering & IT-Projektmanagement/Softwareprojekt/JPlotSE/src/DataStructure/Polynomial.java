@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import src.Utils.*;
+
 public class Polynomial {
     private List<Double> coefficients;
 
@@ -27,7 +29,6 @@ public class Polynomial {
     public Polynomial(String polynom) {
         //remove whitespaces from String using RegEx Pattern
         polynom = polynom.replaceAll("\\s+", "").replaceAll("\\+-", "-");
-        System.out.println(polynom);
 
         //create Regex Pattern for Expressions like x^2, 2x^4, -3, 4x
         Pattern termPattern = Pattern.compile("([+-]?\\d*\\.?\\d*)x?(?:\\^(\\d+))?"); // This Pattern was created using AI: model GPT-4o, prompt: "Create a regex pattern for expressions like x^2, 2x^4, -3, 4x"
@@ -132,7 +133,14 @@ public class Polynomial {
         while (current.coefficients.size() > 2) {
             // Use Newton's method to find a root
             double root = findRoot(current);
-            roots.add(root);
+
+            // Normalize -0.0 to 0.0
+            root = (root == -0.0) ? 0.0 : root;
+
+            // Avoid adding duplicate roots
+            if (!roots.contains(root)) {
+                roots.add(root);
+            }
 
             // Perform polynomial division to get the reduced polynomial
             current = current.divideByLinearFactor(root);
@@ -143,12 +151,26 @@ public class Polynomial {
             // Linear case ax + b = 0 -> root = -b/a
             double a = current.coefficients.get(1);
             double b = current.coefficients.get(0);
-            roots.add(-b / a);
-        } else if (current.coefficients.size() == 3) {
+            double root = -b / a;
+
+            // Normalize and add
+            root = (root == -0.0) ? 0.0 : root;
+            if (!roots.contains(root)) {
+                roots.add(root);
+            }
+        } else {
             // Quadratic case ax^2 + bx + c = 0
-            roots.addAll(solveQuadratic(current));
+            List<Double> quadraticRoots = solveQuadratic(current);
+            for (double root : quadraticRoots) {
+                root = (root == -0.0) ? 0.0 : root;
+                if (!roots.contains(root)) {
+                    roots.add(root);
+                }
+            }
         }
 
+        roots = ListUtils.removeDuplicates(roots);
+        roots = validateRoots(roots);
         return roots;
     }
 
@@ -183,16 +205,16 @@ public class Polynomial {
 
     // Helper function: Find a single root using Newton's method
     private double findRoot(Polynomial poly) {
-        double x0 = 0; // Initial guess
-        double tolerance = 1e-8;
-        int maxIterations = 1000;
+        double x0 = findInitialGuess(poly);
+        double tolerance = 1e-12;
+        int maxIterations = 10000;
 
         for (int i = 0; i < maxIterations; i++) {
             double fx = poly.evaluate(x0);
             double fPrimeX = poly.derivative().evaluate(x0);
 
             if (Math.abs(fx) < tolerance) {
-                return Math.round(x0 * 1e6) / 1e6; // Root found
+                return Math.round(x0 * 1e8) / 1e8; // Root found
             }
 
             if (Math.abs(fPrimeX) < tolerance) {
@@ -203,5 +225,38 @@ public class Polynomial {
         }
 
         return 0; // No root found
+    }
+
+    public double findInitialGuess(Polynomial polynomial) {
+        double lower = -10; // Starting lower bound for search
+        double upper = 10;  // Starting upper bound for search
+        double stepSize = 0.1; // Step size for finding initial guesses
+
+        // Evaluate the polynomial at different points and look for a sign change
+        double prevValue = polynomial.evaluate(lower);
+        for (double x = lower + stepSize; x <= upper; x += stepSize) {
+            double currentValue = polynomial.evaluate(x);
+
+            // Check for a sign change
+            if (Math.signum(prevValue) != Math.signum(currentValue)) {
+                // Sign change detected, return the midpoint of the interval
+                return (x - stepSize + x) / 2.0;
+            }
+
+            prevValue = currentValue;
+        }
+
+        // If no sign change found, return a default guess (e.g., middle of the interval)
+        return (lower + upper) / 2.0;
+    }
+
+    private List<Double> validateRoots(List<Double> roots) {
+        List<Double> newRoots = new ArrayList<>();
+        for(Double root : roots) {
+            if(Math.abs(evaluate(root)) < 1e-6){
+                newRoots.add(root);
+            }
+        }
+        return newRoots;
     }
 }
